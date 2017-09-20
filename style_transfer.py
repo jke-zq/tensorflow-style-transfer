@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import collections
+import time
 
 class StyleTransfer:
 
@@ -106,9 +107,22 @@ class StyleTransfer:
         # this call back function is called every after loss is updated
         global _iter
         _iter = 0
+        global toc
+        toc = time.time()
+        global total_cost
+        total_cost = 0
         def callback(tl, cl, sl):
             global _iter
-            print('iter : %4d, ' % _iter, 'L_total : %g, L_content : %g, L_style : %g' % (tl, cl, sl))
+            global toc
+            global total_cost
+            cost_time = time.time() - toc
+            toc = time.time()
+            total_cost += cost_time
+            print('iter : %4d, ' % _iter, 'L_total : %g, L_content : %g, '
+                                          'L_style : %g, cost_time: %g, '
+                                          'total_cost: %g' % (tl, cl, sl,
+                                                              cost_time,
+                                                              total_cost))
             _iter += 1
 
         optimizer = tf.contrib.opt.ScipyOptimizerInterface(self.L_total, method='L-BFGS-B', options={'maxiter': self.num_iter})
