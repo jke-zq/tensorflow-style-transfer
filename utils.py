@@ -1,5 +1,8 @@
 # Most code in this file was borrowed from https://github.com/Hvass-Labs/TensorFlow-Tutorials/blob/master/15_Style_Transfer.ipynb
 
+# for centos
+# import matplotlib
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL.Image
@@ -26,9 +29,13 @@ def load_image(filename, shape=None, max_size=None):
 
         # Resize the image.
         image = image.resize(size, PIL.Image.LANCZOS) # PIL.Image.LANCZOS is one of resampling filter
+        # for centos
+        # image = image.resize(size, PIL.Image.ANTIALIAS)
 
     if shape is not None:
         image = image.resize(shape, PIL.Image.LANCZOS) # PIL.Image.LANCZOS is one of resampling filter
+        # for centos
+        # image = image.resize(shape, PIL.Image.ANTIALIAS)
 
     # Convert to numpy floating-point array.
     return np.float32(image)
